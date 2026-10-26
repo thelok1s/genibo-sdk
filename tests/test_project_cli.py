@@ -108,3 +108,100 @@ def test_cli_script_runs_host_script(tmp_path: Path, capsys: pytest.CaptureFixtu
     assert main(["script", str(root / "src" / "main.py"), "--sim"]) == 0
     out = capsys.readouterr().out
     assert "battery: robot 87%" in out and "7.act" in out
+
+
+@pytest.mark.parametrize(
+    ("section", "line"),
+    [
+        ("[build]", 'out_dir = "../outside"'),
+        ("[build]", 'out_dir = "/tmp/genibo-out"'),
+        ("[project]", 'entry = "../../etc/passwd"'),
+    ],
+)
+def test_manifest_paths_must_stay_inside_the_project(tmp_path: Path, section: str, line: str) -> None:
+    p = create_project(tmp_path / "bot", "bot")
+    text = (p.root / "genibo.toml").read_text()
+    key = line.split("=")[0].strip()
+    text = "\n".join(ln for ln in text.splitlines() if not ln.startswith(f"{key} ="))
+    text = text.replace(section, f"{section}\n{line}", 1)
+    (p.root / "genibo.toml").write_text(text)
+    with pytest.raises(ProjectError, match="inside the project"):
+        Project.load(p.root)
+
+
+def test_manifest_project_name_cannot_be_a_path(tmp_path: Path) -> None:
+    p = create_project(tmp_path / "bot", "bot")
+    m = p.root / "genibo.toml"
+    m.write_text(m.read_text().replace('name = "bot"', 'name = "../evil"', 1))
+    with pytest.raises(ProjectError, match="alphanumeric"):
+        Project.load(p.root)
+
+
+def _plan_file(tmp_path: Path) -> Path:
+    root = tmp_path / "bot"
+    main(["new", str(root)])
+    main(["build", str(root)])
+    return root / "build" / "bot.plan.json"
+
+
+def _rewrite(path: Path, mutate) -> Path:  # type: ignore[no-untyped-def]
+    d = json.loads(path.read_text())
+    mutate(d)
+    d.pop("frames_sha256", None)  # a hand-edited plan can always recompute its digest
+    out = path.with_name("edited.plan.json")
+    CommandPlan.from_dict(d).save(out)
+    return out
+
+
+def test_run_gate_uses_frames_not_metadata(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    plan = _plan_file(tmp_path)
+
+    def hide_motion(d: dict) -> None:
+        d["steps"] = []  # metadata says nothing moves...
+        for j in d["joints"]["table"].values():
+            j["verified"] = False
+
+    edited = _rewrite(plan, hide_motion)
+    code = main(["run", str(edited), "--port", "/dev/null-genibo", "--yes"])
+    assert code == 2
+    err = capsys.readouterr().err
+    assert "frames move servos" in err and "tail" in err  # ...but the frames still move the tail
+
+
+def test_run_gate_refuses_hazardous_frames(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    from genibo.protocol import commands as c
+
+    plan = _plan_file(tmp_path)
+    rom_write = c.tunnel(0x20, c.mpsu_write(0x40, 7, b"\x41", rom=True)).encode().hex()
+
+    def add_rom_write(d: dict) -> None:
+        for j in d["joints"]["table"].values():
+            j["verified"] = True
+        d["frames"].append(
+            {"t_ms": d["frames"][-1]["t_ms"], "hex": rom_write, "step": 0, "line": 1, "summary": "x"}
+        )
+
+    edited = _rewrite(plan, add_rom_write)
+    code = main(["run", str(edited), "--port", "/dev/null-genibo", "--yes"])
+    assert code == 2
+    assert "MPSU ROM" in capsys.readouterr().err
+
+
+def test_frame_analysis() -> None:
+    from genibo.program.safety import analyze_frames
+    from genibo.protocol import commands as c
+    from genibo.protocol.constants import JogFlag, Torque
+
+    frames = [
+        c.tunnel(0x20, c.torque(0xFE, Torque.ON)).encode(),
+        c.tunnel(0x20, c.s_jog(10, [c.JogEntry(500, 0, 15), c.JogEntry(0, JogFlag.NO_ACTION, 16)])).encode(),
+        c.play_motion(0x20, 0, "7.act").encode(),
+        c.file_delete_all(0x20, 1).encode(),
+        c.raw(0x20, 0x99).encode(),
+    ]
+    a = analyze_frames(frames)
+    assert a.moved_servos == {15} and a.torque_targets == {0xFE}
+    assert len(a.hazards) == 2 and "ALL files" in a.hazards[0] and "0x99" in a.hazards[1]
+    table = {"head_pan": {"servo_id": 15, "verified": True}, "head_tilt": {"servo_id": 16, "verified": False}}
+    assert a.unverified_servos(table) == []
+    assert analyze_frames(frames[1:2]).unverified_servos({}) == ["servo 15"]

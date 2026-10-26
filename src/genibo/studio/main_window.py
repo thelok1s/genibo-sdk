@@ -6,7 +6,7 @@ import ast
 import logging
 from pathlib import Path
 
-from PySide6.QtCore import QDir, Qt, QTimer
+from PySide6.QtCore import QDir, QSettings, Qt, QTimer
 from PySide6.QtGui import QAction, QCloseEvent, QKeySequence
 from PySide6.QtWidgets import (
     QDialog,
@@ -33,6 +33,7 @@ from genibo.joints import JointMap, load_profile
 from genibo.program.builder import Program
 from genibo.program.compiler import BuildResult, compile_source
 from genibo.program.plan import CommandPlan
+from genibo.program.static_check import check_source
 from genibo.project import Project, ProjectError, create_project
 from genibo.studio.editor import CodeEditor, mono_font
 from genibo.studio.panels import DocsPanel, LogPanel, PlanPanel, ProblemsPanel, SimPanel, _api_section
@@ -40,6 +41,26 @@ from genibo.studio.robot_panel import RobotPanel
 from genibo.studio.theme import PALETTE
 
 log = logging.getLogger("genibo.studio")
+
+_TRUST_KEY = "trusted_projects"
+
+
+def _settings() -> QSettings:
+    return QSettings("genibo", "Genibo Studio")
+
+
+def trusted_project_roots() -> set[str]:
+    value = _settings().value(_TRUST_KEY, [])
+    if isinstance(value, str):  # QSettings returns a bare string for one-element lists on some backends
+        return {value}
+    if isinstance(value, (list, tuple)):
+        return {str(v) for v in value}
+    return set()
+
+
+def remember_trusted_project(root: Path) -> None:
+    roots = trusted_project_roots() | {str(root.resolve())}
+    _settings().setValue(_TRUST_KEY, sorted(roots))
 
 
 class MainWindow(QMainWindow):
@@ -51,6 +72,8 @@ class MainWindow(QMainWindow):
         self.plan: CommandPlan | None = None
         self.last_build: BuildResult | None = None
         self.editors: dict[Path, CodeEditor] = {}
+        # Projects whose program code may run on this machine (validation/build execute it).
+        self._trusted: set[str] = set()
 
         # central editor tabs
         self.tabs = QTabWidget()
@@ -245,7 +268,43 @@ class MainWindow(QMainWindow):
         )
         self.tabs.addTab(w, "Welcome")
 
-    def open_project(self, root: Path) -> None:
+    def is_trusted(self) -> bool:
+        if self.project is None:
+            return False
+        root = str(self.project.root.resolve())
+        return root in self._trusted or root in trusted_project_roots()
+
+    def trust_project(self, *, remember: bool = True) -> None:
+        """Allow this project's program to run here (validation and builds execute it)."""
+        if self.project is None:
+            return
+        self._trusted.add(str(self.project.root.resolve()))
+        if remember:
+            remember_trusted_project(self.project.root)
+
+    def _ask_trust(self) -> bool:
+        if self.is_trusted():
+            return True
+        assert self.project is not None
+        answer = QMessageBox.question(
+            self,
+            "Trust this project?",
+            f"Building {self.project.entry} runs its Python code on this computer "
+            "(that is how compiled programs are traced).\n\n"
+            f"Only continue if you trust the files in\n{self.project.root}",
+        )
+        if answer != QMessageBox.StandardButton.Yes:
+            return False
+        self.trust_project()
+        self.validate()
+        return True
+
+    def open_project(self, root: Path, *, trusted: bool = False) -> None:
+        """Open a project. Its code is only executed once the folder is trusted.
+
+        ``trusted=True`` trusts it for this session only (projects created here,
+        self-tests); folders the user approves are remembered across sessions.
+        """
         try:
             self.project = Project.load(root)
         except ProjectError as exc:
@@ -262,6 +321,8 @@ class MainWindow(QMainWindow):
             self._close_tab(0, force=True)
         self.open_file(self.project.entry_path)
         self.setWindowTitle(f"Genibo Studio — {self.project.name}")
+        if trusted:
+            self.trust_project(remember=False)
         plan_file = self.project.plan_path
         if plan_file.exists():
             try:
@@ -297,7 +358,8 @@ class MainWindow(QMainWindow):
         except GeniboError as exc:
             QMessageBox.warning(self, "New project", str(exc))
             return
-        self.open_project(proj.root)
+        remember_trusted_project(proj.root)  # created here from our own template
+        self.open_project(proj.root, trusted=True)
 
     def open_plan_dialog(self) -> None:
         path, _ = QFileDialog.getOpenFileName(self, "Open command plan", filter="Plans (*.plan.json *.json)")
@@ -405,6 +467,17 @@ class MainWindow(QMainWindow):
                         )
                     ]
                 )
+        if not self.is_trusted():
+            _tree, diags = check_source(source, str(self.project.entry_path))
+            diags.append(
+                Diagnostic(
+                    "info",
+                    "S100",
+                    "project not trusted: only static checks ran; its code runs once you Build "
+                    "(you will be asked to trust the folder)",
+                )
+            )
+            return BuildResult(diags)
         return compile_source(
             source,
             str(self.project.entry_path),
@@ -446,6 +519,9 @@ class MainWindow(QMainWindow):
                 "Script projects run live on the host; nothing to compile.\n"
                 "Use `genibo script src/main.py --sim` or the Robot panel.",
             )
+            return None
+        if not self._ask_trust():
+            self.statusBar().showMessage("build cancelled: project not trusted", 6000)
             return None
         result = self.project.build()
         self._show_result(result)

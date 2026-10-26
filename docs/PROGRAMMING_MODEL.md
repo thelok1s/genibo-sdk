@@ -71,7 +71,10 @@ Not allowed (a static error with the line number):
 | G109 | `g.<unknown>` | suggests the closest valid step |
 
 These checks enforce the model. They are **not** a security sandbox: the
-program file is your own code and runs on your machine at build time.
+program file is your own code and runs on your machine at build time. For that
+reason the studio runs a project's code only after you trust its folder. Until
+then you get static checks, and Build asks first. Projects created in the studio
+are trusted automatically.
 
 ### Diagnostics
 

@@ -29,6 +29,7 @@ from genibo.errors import GeniboError
 from genibo.joints import JointMap
 from genibo.program.plan import CommandPlan
 from genibo.program.player import play_plan
+from genibo.program.safety import analyze_plan
 from genibo.protocol.constants import Storage
 from genibo.robot import Genibo
 from genibo.studio.theme import PALETTE
@@ -372,23 +373,29 @@ class RobotPanel(QWidget):
             )
             return
         if robot.is_hardware:
-            used = {k for s in plan.steps if s["body"]["kind"] == "pose" for k, _ in s["body"]["targets"]}
-            unverified = sorted(
-                n for n in used if not plan.joints.get("table", {}).get(n, {}).get("verified")
-            )
+            # Gate on what the frames do, judged against the project's own joint table.
+            analysis = analyze_plan(plan)
+            unverified = analysis.unverified_servos(self._joints().to_config())
             if unverified and not self.allow_unverified.isChecked():
                 QMessageBox.warning(
                     self,
                     "Run plan",
-                    "This plan moves joints that are not verified on hardware:\n"
+                    "This plan moves servos that are not verified on hardware:\n"
                     + ", ".join(unverified)
                     + "\n\nVerify them in genibo.toml, or tick "
                     "'Allow unverified joints'.",
                 )
                 return
+            hazards = ""
+            if analysis.hazards:
+                hazards = (
+                    "\n\nThe plan ALSO changes robot state beyond motion:\n"
+                    + "\n".join(analysis.hazards[:12])
+                    + ("\n…" if len(analysis.hazards) > 12 else "")
+                )
             msg = (
                 f"Stream {len(plan.frames)} frames ({plan.duration_ms / 1000:.1f} s) to the PHYSICAL robot on "
-                f"{robot.link.transport.description}?\n\nKeep the robot clear. E-STOP sends torque-free."
+                f"{robot.link.transport.description}?{hazards}\n\nKeep the robot clear. E-STOP sends torque-free."
             )
             if QMessageBox.question(self, "Run on hardware", msg) != QMessageBox.StandardButton.Yes:
                 return

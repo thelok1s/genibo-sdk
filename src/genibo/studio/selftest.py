@@ -68,7 +68,7 @@ def run_self_test(screenshot: str | None = None, log_path: str | None = None) ->
             step = "main window"
             win = MainWindow()
             win.resize(1400, 900)
-            win.open_project(proj.root)
+            win.open_project(proj.root, trusted=True)  # created by this self-test
             win.show()
             QApplication.processEvents()
             step = "build"

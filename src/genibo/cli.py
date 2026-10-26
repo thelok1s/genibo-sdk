@@ -192,22 +192,37 @@ def cmd_sim(args: argparse.Namespace) -> int:
 def cmd_run(args: argparse.Namespace) -> int:
     from genibo.link import Link
     from genibo.program.player import play_plan
+    from genibo.program.safety import analyze_plan
     from genibo.transport.serial import SerialTransport
 
-    plan, _ = _load_plan_or_project(args.target)
-    unverified = [n for n, j in plan.joints.get("table", {}).items() if not j.get("verified")]
-    moves = any(s["body"]["kind"] == "pose" for s in plan.steps)
-    used = {k for s in plan.steps if s["body"]["kind"] == "pose" for k, _ in s["body"]["targets"]}
-    risky = sorted(used & set(unverified))
+    plan, project = _load_plan_or_project(args.target)
+    problems = plan.verify()
+    if problems:
+        print("refusing: plan failed verification: " + "; ".join(problems), file=sys.stderr)
+        return EXIT_USAGE
+    # The gate looks at the frames that will be sent, not at the plan's descriptive metadata.
+    analysis = analyze_plan(plan)
+    # Verified flags come from the local project when running one; for a bare plan file they
+    # come from the table embedded in the plan, keyed by the servo IDs the frames actually move.
+    table = project.joint_map().to_config() if project is not None else plan.joints.get("table", {})
+    risky = analysis.unverified_servos(table)
     print(
         f"[{HARDWARE_BANNER}] plan {plan.name!r}: {len(plan.frames)} frames, {plan.duration_ms:.1f} ms -> "
-        f"{args.port} robot 0x{plan.robot_id:02x}"
+        f"{args.port} robot 0x{plan.robot_id:02x}; servos moved: {sorted(analysis.moved_servos) or 'none'}"
     )
-    if moves and risky and not args.allow_unverified_joints:
+    if risky and not args.allow_unverified_joints:
         print(
-            "refusing: the plan moves joints whose servo ID/calibration is not verified on hardware: "
+            "refusing: the frames move servos whose ID/calibration is not verified on hardware: "
             + ", ".join(risky)
             + "\nverify them (genibo.toml verified = true) or pass --allow-unverified-joints",
+            file=sys.stderr,
+        )
+        return EXIT_USAGE
+    if analysis.hazards and not args.allow_dangerous:
+        print(
+            "refusing: the plan contains commands that change robot state beyond motion:\n  "
+            + "\n  ".join(analysis.hazards)
+            + "\npass --allow-dangerous if this is intended",
             file=sys.stderr,
         )
         return EXIT_USAGE
@@ -408,6 +423,11 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--baud", type=int, default=115200)
     s.add_argument("--yes", action="store_true", help="do not ask for confirmation")
     s.add_argument("--allow-unverified-joints", action="store_true")
+    s.add_argument(
+        "--allow-dangerous",
+        action="store_true",
+        help="allow frames that write controller/servo settings, delete or store robot files, or are unknown",
+    )
     s.add_argument("--on-cancel", choices=["nothing", "torque_free"], default="nothing")
     s.set_defaults(func=cmd_run)
 

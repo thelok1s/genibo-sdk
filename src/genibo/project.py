@@ -29,6 +29,20 @@ class ProjectError(GeniboError):
     pass
 
 
+def _valid_name(name: str) -> bool:
+    return bool(name) and name.replace("-", "").replace("_", "").isalnum()
+
+
+def _confined(root: Path, rel: str, what: str) -> str:
+    """Accept only a relative path that stays inside the project root (no absolute paths, no ``..``)."""
+    candidate = Path(rel)
+    if not rel or candidate.is_absolute() or candidate.drive or ".." in candidate.parts:
+        raise ProjectError(f"{what} must be a relative path inside the project, got {rel!r}")
+    if not (root / candidate).resolve().is_relative_to(root.resolve()):
+        raise ProjectError(f"{what} {rel!r} resolves outside the project (symlink?)")
+    return rel
+
+
 @dataclass
 class Project:
     root: Path
@@ -79,11 +93,16 @@ class Project:
         stray = [k for k, v in joints.items() if not isinstance(v, dict)]
         if stray:
             raise ProjectError(f"{path}: unexpected keys in [joints]: {', '.join(stray)}")
+        name = str(proj["name"])
+        if not _valid_name(name):
+            raise ProjectError(f"{path}: [project] name {name!r} must be alphanumeric (with - or _)")
+        entry = _confined(root, str(proj.get("entry", "src/main.py")), f"{path}: [project] entry")
+        out_dir = _confined(root, str(build.get("out_dir", "build")), f"{path}: [build] out_dir")
         return cls(
             root=root,
-            name=str(proj["name"]),
+            name=name,
             kind=kind,
-            entry=str(proj.get("entry", "src/main.py")),
+            entry=entry,
             program=proj.get("program"),
             robot_id=int(robot.get("id", DEFAULT_ROBOT_ID)),
             port=str(robot.get("port", "")),
@@ -91,7 +110,7 @@ class Project:
             encoding=str(robot.get("encoding", "ascii")),
             joint_profile=str(profile),
             joint_overrides=overrides,
-            out_dir=str(build.get("out_dir", "build")),
+            out_dir=out_dir,
         )
 
     # ------------------------------------------------------------ derived
@@ -218,7 +237,7 @@ def create_project(root: Path, name: str | None = None, *, kind: str = "program"
     if (root / MANIFEST).exists():
         raise ProjectError(f"{root / MANIFEST} already exists")
     name = name or root.name
-    if not name.replace("-", "").replace("_", "").isalnum():
+    if not _valid_name(name):
         raise ProjectError(f"project name {name!r} must be alphanumeric (with - or _)")
     (root / "src").mkdir(parents=True, exist_ok=True)
     (root / MANIFEST).write_text(_MANIFEST_TEMPLATE.format(name=name, kind=kind), encoding="utf-8")

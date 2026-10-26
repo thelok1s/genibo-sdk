@@ -32,7 +32,9 @@ that reject constructs whose outcome cannot be decided at build time (`while`,
 imports, I/O, ...).
 *Why.* Gives exact Python semantics for the supported subset (helpers, loops,
 arithmetic) with little code, and source lines come from the call stack.
-*Trade-off.* Not a sandbox; documented as such.
+*Trade-off.* Not a sandbox; documented as such. The studio therefore runs a
+project's code only after the user trusts its folder (static checks until then).
+Hardware runs gate on the decoded frames, not on the plan's metadata.
 
 ## D4. Strict by default, legacy quirks only on request
 

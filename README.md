@@ -104,7 +104,7 @@ with Genibo.serial("COM5", robot_id=0x20) as robot:
 | `genibo build [DIR]` | compile to `build/<name>.plan.json` and `build/<name>.lst` |
 | `genibo inspect PLAN\|DIR [--detail]`, `genibo inspect --hex BYTES` | listing / disassembly / plan verification |
 | `genibo sim PLAN\|DIR [--realtime] [--robot-file master:7.act]` | play on the simulator |
-| `genibo run PLAN\|DIR --port P [--yes] [--allow-unverified-joints] [--on-cancel torque_free]` | stream to hardware |
+| `genibo run PLAN\|DIR --port P [--yes] [--allow-unverified-joints] [--allow-dangerous] [--on-cancel torque_free]` | stream to hardware; refuses unverified servos and state-changing commands found in the frames |
 | `genibo script FILE (--sim\|--port P)` | run a host script's `main(robot)` |
 | `genibo robot status\|files\|upload\|download\|delete\|play\|stop\|set-time\|torque\|ems\|mpsu-motion\|led-buzz` | one-off robot commands; `--listen S` prints replies |
 | `genibo ports`, `genibo doctor` | environment |
