@@ -1,0 +1,21 @@
+# Vendored legacy sources and golden data: keep every byte exactly as recorded
+# (tests pin COjw_25_Genibo.cs by SHA-256; never let line-ending conversion touch them).
+compat/legacy/** -text
+tests/golden/** -text
+compat/legacy/**/*.cs diff
+
+# Scripts and configs stay LF everywhere (including Windows checkouts in CI).
+*.sh text eol=lf
+*.py text eol=lf
+*.yml text eol=lf
+*.toml text eol=lf
+*.spec text eol=lf
+*.md text eol=lf
+*.ps1 text eol=lf
+*.iss text eol=lf
+
+# Binary assets
+*.png binary
+*.ico binary
+*.icns binary
+*.car binary

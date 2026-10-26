@@ -1,0 +1,695 @@
+{
+  "format": "genibo-command-plan",
+  "format_version": 1,
+  "name": "wave",
+  "sdk_version": "0.1.0",
+  "source": {
+    "file": "src/main.py",
+    "sha256": "fc59e831b5af830ef8fa5d5695e1ba0eab8036c76324d767db2d8656d62b80de"
+  },
+  "target": {
+    "link": "bluetooth-serial",
+    "robot_id": 32,
+    "encoding": "ascii"
+  },
+  "joints": {
+    "profile": "legacy-cgenibo (unverified)+overrides",
+    "all_verified": false,
+    "table": {
+      "left_front_wing": {
+        "servo_id": 0,
+        "raw_min": 0,
+        "raw_max": 1023,
+        "verified": false,
+        "center": 512,
+        "mech_move": 1024.0,
+        "degree": 333.3,
+        "direction": 0,
+        "limit_up": 0.0,
+        "limit_dn": 0.0,
+        "note": "ID from OpenJigWare CGenibo constants; calibration from a code comment; not hardware-verified"
+      },
+      "left_front_down": {
+        "servo_id": 1,
+        "raw_min": 0,
+        "raw_max": 1023,
+        "verified": false,
+        "center": 512,
+        "mech_move": 1024.0,
+        "degree": 333.3,
+        "direction": 0,
+        "limit_up": 0.0,
+        "limit_dn": 0.0,
+        "note": "ID from OpenJigWare CGenibo constants; calibration from a code comment; not hardware-verified"
+      },
+      "left_front_up": {
+        "servo_id": 2,
+        "raw_min": 0,
+        "raw_max": 1023,
+        "verified": false,
+        "center": 512,
+        "mech_move": 1024.0,
+        "degree": 333.3,
+        "direction": 0,
+        "limit_up": 0.0,
+        "limit_dn": 0.0,
+        "note": "ID from OpenJigWare CGenibo constants; calibration from a code comment; not hardware-verified"
+      },
+      "right_front_wing": {
+        "servo_id": 3,
+        "raw_min": 0,
+        "raw_max": 1023,
+        "verified": false,
+        "center": 512,
+        "mech_move": 1024.0,
+        "degree": 333.3,
+        "direction": 0,
+        "limit_up": 0.0,
+        "limit_dn": 0.0,
+        "note": "ID from OpenJigWare CGenibo constants; calibration from a code comment; not hardware-verified"
+      },
+      "right_front_down": {
+        "servo_id": 4,
+        "raw_min": 0,
+        "raw_max": 1023,
+        "verified": false,
+        "center": 512,
+        "mech_move": 1024.0,
+        "degree": 333.3,
+        "direction": 0,
+        "limit_up": 0.0,
+        "limit_dn": 0.0,
+        "note": "ID from OpenJigWare CGenibo constants; calibration from a code comment; not hardware-verified"
+      },
+      "right_front_up": {
+        "servo_id": 5,
+        "raw_min": 0,
+        "raw_max": 1023,
+        "verified": false,
+        "center": 512,
+        "mech_move": 1024.0,
+        "degree": 333.3,
+        "direction": 0,
+        "limit_up": 0.0,
+        "limit_dn": 0.0,
+        "note": "ID from OpenJigWare CGenibo constants; calibration from a code comment; not hardware-verified"
+      },
+      "left_rear_wing": {
+        "servo_id": 6,
+        "raw_min": 0,
+        "raw_max": 1023,
+        "verified": false,
+        "center": 512,
+        "mech_move": 1024.0,
+        "degree": 333.3,
+        "direction": 0,
+        "limit_up": 0.0,
+        "limit_dn": 0.0,
+        "note": "ID from OpenJigWare CGenibo constants; calibration from a code comment; not hardware-verified"
+      },
+      "left_rear_down": {
+        "servo_id": 7,
+        "raw_min": 0,
+        "raw_max": 1023,
+        "verified": false,
+        "center": 512,
+        "mech_move": 1024.0,
+        "degree": 333.3,
+        "direction": 0,
+        "limit_up": 0.0,
+        "limit_dn": 0.0,
+        "note": "ID from OpenJigWare CGenibo constants; calibration from a code comment; not hardware-verified"
+      },
+      "left_rear_up": {
+        "servo_id": 8,
+        "raw_min": 0,
+        "raw_max": 1023,
+        "verified": false,
+        "center": 512,
+        "mech_move": 1024.0,
+        "degree": 333.3,
+        "direction": 0,
+        "limit_up": 0.0,
+        "limit_dn": 0.0,
+        "note": "ID from OpenJigWare CGenibo constants; calibration from a code comment; not hardware-verified"
+      },
+      "right_rear_wing": {
+        "servo_id": 9,
+        "raw_min": 0,
+        "raw_max": 1023,
+        "verified": false,
+        "center": 512,
+        "mech_move": 1024.0,
+        "degree": 333.3,
+        "direction": 0,
+        "limit_up": 0.0,
+        "limit_dn": 0.0,
+        "note": "ID from OpenJigWare CGenibo constants; calibration from a code comment; not hardware-verified"
+      },
+      "right_rear_down": {
+        "servo_id": 10,
+        "raw_min": 0,
+        "raw_max": 1023,
+        "verified": false,
+        "center": 512,
+        "mech_move": 1024.0,
+        "degree": 333.3,
+        "direction": 0,
+        "limit_up": 0.0,
+        "limit_dn": 0.0,
+        "note": "ID from OpenJigWare CGenibo constants; calibration from a code comment; not hardware-verified"
+      },
+      "right_rear_up": {
+        "servo_id": 11,
+        "raw_min": 0,
+        "raw_max": 1023,
+        "verified": false,
+        "center": 512,
+        "mech_move": 1024.0,
+        "degree": 333.3,
+        "direction": 0,
+        "limit_up": 0.0,
+        "limit_dn": 0.0,
+        "note": "ID from OpenJigWare CGenibo constants; calibration from a code comment; not hardware-verified"
+      },
+      "head_mouth": {
+        "servo_id": 14,
+        "raw_min": 0,
+        "raw_max": 1023,
+        "verified": false,
+        "center": 512,
+        "mech_move": 1024.0,
+        "degree": 333.3,
+        "direction": 0,
+        "limit_up": 0.0,
+        "limit_dn": 0.0,
+        "note": "ID from OpenJigWare CGenibo constants; calibration from a code comment; not hardware-verified"
+      },
+      "head_pan": {
+        "servo_id": 15,
+        "raw_min": 0,
+        "raw_max": 1023,
+        "verified": false,
+        "center": 512,
+        "mech_move": 1024.0,
+        "degree": 333.3,
+        "direction": 0,
+        "limit_up": 0.0,
+        "limit_dn": 0.0,
+        "note": "ID from OpenJigWare CGenibo constants; calibration from a code comment; not hardware-verified"
+      },
+      "head_tilt": {
+        "servo_id": 16,
+        "raw_min": 0,
+        "raw_max": 1023,
+        "verified": false,
+        "center": 512,
+        "mech_move": 1024.0,
+        "degree": 333.3,
+        "direction": 0,
+        "limit_up": 0.0,
+        "limit_dn": 0.0,
+        "note": "ID from OpenJigWare CGenibo constants; calibration from a code comment; not hardware-verified"
+      },
+      "tail": {
+        "servo_id": 17,
+        "raw_min": 0,
+        "raw_max": 1023,
+        "verified": false,
+        "center": 512,
+        "mech_move": 1024.0,
+        "degree": 333.3,
+        "direction": 0,
+        "limit_up": 45.0,
+        "limit_dn": -45.0,
+        "note": "ID from OpenJigWare CGenibo constants; calibration from a code comment; not hardware-verified"
+      },
+      "head_tilt_up": {
+        "servo_id": 18,
+        "raw_min": 0,
+        "raw_max": 1023,
+        "verified": false,
+        "center": 512,
+        "mech_move": 1024.0,
+        "degree": 333.3,
+        "direction": 0,
+        "limit_up": 0.0,
+        "limit_dn": 0.0,
+        "note": "ID from OpenJigWare CGenibo constants; calibration from a code comment; not hardware-verified"
+      },
+      "left_ear": {
+        "servo_id": 19,
+        "raw_min": 0,
+        "raw_max": 1023,
+        "verified": false,
+        "center": 512,
+        "mech_move": 1024.0,
+        "degree": 333.3,
+        "direction": 0,
+        "limit_up": 0.0,
+        "limit_dn": 0.0,
+        "note": "ID from OpenJigWare CGenibo constants; calibration from a code comment; not hardware-verified"
+      },
+      "right_ear": {
+        "servo_id": 20,
+        "raw_min": 0,
+        "raw_max": 1023,
+        "verified": false,
+        "center": 512,
+        "mech_move": 1024.0,
+        "degree": 333.3,
+        "direction": 0,
+        "limit_up": 0.0,
+        "limit_dn": 0.0,
+        "note": "ID from OpenJigWare CGenibo constants; calibration from a code comment; not hardware-verified"
+      }
+    }
+  },
+  "duration_ms": 4231.2,
+  "frames_sha256": "9f85abaa4fe9970949a66168ff17c112659cb6675bfd81bc11656a845a53b008",
+  "notes": [
+    "The host sends each frame at t_ms after start; the robot does not store or run this plan.",
+    "Frames are encoded by the SDK encoders that are byte-compared with the legacy C# implementation.",
+    "Robot-side motion/task files referenced by name must already exist on the robot."
+  ],
+  "diagnostics": [
+    {
+      "severity": "warning",
+      "code": "G301",
+      "message": "joint 'head_pan': servo ID/calibration not verified on hardware",
+      "line": 24
+    },
+    {
+      "severity": "warning",
+      "code": "G301",
+      "message": "joint 'head_tilt': servo ID/calibration not verified on hardware",
+      "line": 24
+    },
+    {
+      "severity": "warning",
+      "code": "G301",
+      "message": "joint 'tail': servo ID/calibration not verified on hardware",
+      "line": 24
+    }
+  ],
+  "steps": [
+    {
+      "index": 0,
+      "at_ms": 0.0,
+      "advance_ms": 0.0,
+      "body": {
+        "on": true,
+        "joint": null,
+        "kind": "torque"
+      },
+      "location": {
+        "file": "src/main.py",
+        "line": 22
+      },
+      "text": "torque on (all)"
+    },
+    {
+      "index": 1,
+      "at_ms": 0.0,
+      "advance_ms": 0.0,
+      "body": {
+        "label": "neutral pose",
+        "kind": "mark"
+      },
+      "location": {
+        "file": "src/main.py",
+        "line": 23
+      },
+      "text": "mark 'neutral pose'"
+    },
+    {
+      "index": 2,
+      "at_ms": 0.0,
+      "advance_ms": 795.2,
+      "body": {
+        "targets": [
+          [
+            "head_pan",
+            0.0
+          ],
+          [
+            "head_tilt",
+            0.0
+          ],
+          [
+            "tail",
+            0.0
+          ]
+        ],
+        "ms": 800,
+        "raw": false,
+        "led": 0,
+        "wait": true,
+        "clip": false,
+        "kind": "pose"
+      },
+      "location": {
+        "file": "src/main.py",
+        "line": 24
+      },
+      "text": "pose head_pan=0°, head_tilt=0°, tail=0° in 800 ms"
+    },
+    {
+      "index": 3,
+      "at_ms": 795.2,
+      "advance_ms": 0.0,
+      "body": {
+        "label": "look left/right with green servo LEDs",
+        "kind": "mark"
+      },
+      "location": {
+        "file": "src/main.py",
+        "line": 26
+      },
+      "text": "mark 'look left/right with green servo LEDs'"
+    },
+    {
+      "index": 4,
+      "at_ms": 795.2,
+      "advance_ms": 504.0,
+      "body": {
+        "targets": [
+          [
+            "head_pan",
+            25.0
+          ],
+          [
+            "head_tilt",
+            -10.0
+          ]
+        ],
+        "ms": 500,
+        "raw": false,
+        "led": 4,
+        "wait": true,
+        "clip": false,
+        "kind": "pose"
+      },
+      "location": {
+        "file": "src/main.py",
+        "line": 27
+      },
+      "text": "pose head_pan=25°, head_tilt=-10° in 500 ms"
+    },
+    {
+      "index": 5,
+      "at_ms": 1299.2,
+      "advance_ms": 896.0,
+      "body": {
+        "targets": [
+          [
+            "head_pan",
+            -25.0
+          ]
+        ],
+        "ms": 900,
+        "raw": false,
+        "led": 4,
+        "wait": true,
+        "clip": false,
+        "kind": "pose"
+      },
+      "location": {
+        "file": "src/main.py",
+        "line": 28
+      },
+      "text": "pose head_pan=-25° in 900 ms"
+    },
+    {
+      "index": 6,
+      "at_ms": 2195.2,
+      "advance_ms": 504.0,
+      "body": {
+        "targets": [
+          [
+            "head_pan",
+            0.0
+          ],
+          [
+            "head_tilt",
+            0.0
+          ]
+        ],
+        "ms": 500,
+        "raw": false,
+        "led": 0,
+        "wait": true,
+        "clip": false,
+        "kind": "pose"
+      },
+      "location": {
+        "file": "src/main.py",
+        "line": 29
+      },
+      "text": "pose head_pan=0°, head_tilt=0° in 500 ms"
+    },
+    {
+      "index": 7,
+      "at_ms": 2699.2,
+      "advance_ms": 0.0,
+      "body": {
+        "label": "wag",
+        "kind": "mark"
+      },
+      "location": {
+        "file": "src/main.py",
+        "line": 31
+      },
+      "text": "mark 'wag'"
+    },
+    {
+      "index": 8,
+      "at_ms": 2699.2,
+      "advance_ms": 246.4,
+      "body": {
+        "targets": [
+          [
+            "tail",
+            30.0
+          ]
+        ],
+        "ms": 250,
+        "raw": false,
+        "led": 0,
+        "wait": true,
+        "clip": false,
+        "kind": "pose"
+      },
+      "location": {
+        "file": "src/main.py",
+        "line": 16
+      },
+      "text": "pose tail=30° in 250 ms"
+    },
+    {
+      "index": 9,
+      "at_ms": 2945.6,
+      "advance_ms": 246.4,
+      "body": {
+        "targets": [
+          [
+            "tail",
+            -30.0
+          ]
+        ],
+        "ms": 250,
+        "raw": false,
+        "led": 0,
+        "wait": true,
+        "clip": false,
+        "kind": "pose"
+      },
+      "location": {
+        "file": "src/main.py",
+        "line": 16
+      },
+      "text": "pose tail=-30° in 250 ms"
+    },
+    {
+      "index": 10,
+      "at_ms": 3192.0,
+      "advance_ms": 246.4,
+      "body": {
+        "targets": [
+          [
+            "tail",
+            30.0
+          ]
+        ],
+        "ms": 250,
+        "raw": false,
+        "led": 0,
+        "wait": true,
+        "clip": false,
+        "kind": "pose"
+      },
+      "location": {
+        "file": "src/main.py",
+        "line": 16
+      },
+      "text": "pose tail=30° in 250 ms"
+    },
+    {
+      "index": 11,
+      "at_ms": 3438.4,
+      "advance_ms": 246.4,
+      "body": {
+        "targets": [
+          [
+            "tail",
+            -30.0
+          ]
+        ],
+        "ms": 250,
+        "raw": false,
+        "led": 0,
+        "wait": true,
+        "clip": false,
+        "kind": "pose"
+      },
+      "location": {
+        "file": "src/main.py",
+        "line": 16
+      },
+      "text": "pose tail=-30° in 250 ms"
+    },
+    {
+      "index": 12,
+      "at_ms": 3684.8,
+      "advance_ms": 246.4,
+      "body": {
+        "targets": [
+          [
+            "tail",
+            0.0
+          ]
+        ],
+        "ms": 250,
+        "raw": false,
+        "led": 0,
+        "wait": true,
+        "clip": false,
+        "kind": "pose"
+      },
+      "location": {
+        "file": "src/main.py",
+        "line": 17
+      },
+      "text": "pose tail=0° in 250 ms"
+    },
+    {
+      "index": 13,
+      "at_ms": 3931.2,
+      "advance_ms": 0.0,
+      "body": {
+        "led": 1,
+        "buzz": 1,
+        "mpsu_id": 254,
+        "kind": "head_led_buzz"
+      },
+      "location": {
+        "file": "src/main.py",
+        "line": 34
+      },
+      "text": "head LED 1, buzz 1"
+    },
+    {
+      "index": 14,
+      "at_ms": 3931.2,
+      "advance_ms": 300.0,
+      "body": {
+        "ms": 300,
+        "kind": "wait"
+      },
+      "location": {
+        "file": "src/main.py",
+        "line": 35
+      },
+      "text": "wait 300 ms"
+    }
+  ],
+  "frames": [
+    {
+      "t_ms": 0.0,
+      "hex": "ff20810000000affff0afe03a25c34016077",
+      "step": 0,
+      "line": 22,
+      "summary": "torque on (all)  <LINK robot 0x20 SERVO_BUS(0x81): torque ON -> servo all>"
+    },
+    {
+      "t_ms": 0.0,
+      "hex": "ff208100000014ffff14fe06a658470002000f00020010000200116c",
+      "step": 2,
+      "line": 24,
+      "summary": "pose head_pan=0°, head_tilt=0°, tail=0° in 800 ms  <LINK robot 0x20 SERVO_BUS(0x81): S_JOG(0x06) 3 servo(s) [15,16,17] in 71 ticks (795.2 ms)>"
+    },
+    {
+      "t_ms": 795.2,
+      "hex": "ff208100000010ffff10fe06748a2d4d02040fe10104103a",
+      "step": 4,
+      "line": 27,
+      "summary": "pose head_pan=25°, head_tilt=-10° in 500 ms  <LINK robot 0x20 SERVO_BUS(0x81): S_JOG(0x06) 2 servo(s) [15,16] in 45 ticks (504.0 ms)>"
+    },
+    {
+      "t_ms": 1299.2,
+      "hex": "ff20810000000cffff0cfe061ce250b301040f4e",
+      "step": 5,
+      "line": 28,
+      "summary": "pose head_pan=-25° in 900 ms  <LINK robot 0x20 SERVO_BUS(0x81): S_JOG(0x06) 1 servo(s) [15] in 80 ticks (896.0 ms)>"
+    },
+    {
+      "t_ms": 2195.2,
+      "hex": "ff208100000010ffff10fe06da242d0002000f0002001015",
+      "step": 6,
+      "line": 29,
+      "summary": "pose head_pan=0°, head_tilt=0° in 500 ms  <LINK robot 0x20 SERVO_BUS(0x81): S_JOG(0x06) 2 servo(s) [15,16] in 45 ticks (504.0 ms)>"
+    },
+    {
+      "t_ms": 2699.2,
+      "hex": "ff20810000000cffff0cfe06ac52165c0200117e",
+      "step": 8,
+      "line": 16,
+      "summary": "pose tail=30° in 250 ms  <LINK robot 0x20 SERVO_BUS(0x81): S_JOG(0x06) 1 servo(s) [17] in 22 ticks (246.4 ms)>"
+    },
+    {
+      "t_ms": 2945.6,
+      "hex": "ff20810000000cffff0cfe0656a816a401001105",
+      "step": 9,
+      "line": 16,
+      "summary": "pose tail=-30° in 250 ms  <LINK robot 0x20 SERVO_BUS(0x81): S_JOG(0x06) 1 servo(s) [17] in 22 ticks (246.4 ms)>"
+    },
+    {
+      "t_ms": 3192.0,
+      "hex": "ff20810000000cffff0cfe06ac52165c0200117e",
+      "step": 10,
+      "line": 16,
+      "summary": "pose tail=30° in 250 ms  <LINK robot 0x20 SERVO_BUS(0x81): S_JOG(0x06) 1 servo(s) [17] in 22 ticks (246.4 ms)>"
+    },
+    {
+      "t_ms": 3438.4,
+      "hex": "ff20810000000cffff0cfe0656a816a401001105",
+      "step": 11,
+      "line": 16,
+      "summary": "pose tail=-30° in 250 ms  <LINK robot 0x20 SERVO_BUS(0x81): S_JOG(0x06) 1 servo(s) [17] in 22 ticks (246.4 ms)>"
+    },
+    {
+      "t_ms": 3684.8,
+      "hex": "ff20810000000cffff0cfe06f00e160002001122",
+      "step": 12,
+      "line": 17,
+      "summary": "pose tail=0° in 250 ms  <LINK robot 0x20 SERVO_BUS(0x81): S_JOG(0x06) 1 servo(s) [17] in 22 ticks (246.4 ms)>"
+    },
+    {
+      "t_ms": 3931.2,
+      "hex": "ff208100000009ffff09fe18ee10010139",
+      "step": 13,
+      "line": 34,
+      "summary": "head LED 1, buzz 1  <LINK robot 0x20 SERVO_BUS(0x81): MPSU all head LED 1 buzz 1>"
+    }
+  ]
+}

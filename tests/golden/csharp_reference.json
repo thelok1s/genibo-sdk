@@ -1,0 +1,1564 @@
+{
+  "generator": "genibo-sdk/compat/csharp-reference (dotnet 6.0.20)",
+  "source_file": "compat/legacy/OpenJigWare/COjw_25_Genibo.cs",
+  "source_sha256": "f8063c54ff20c0b5b9cb16ac8a159c95e27df5cd054cb74c452d22b593843e0a",
+  "notes": "Bytes recorded from the unmodified legacy implementation. Encoding.Default is UTF-8 on .NET 6; scenarios use ASCII names only.",
+  "tx": [
+    {
+      "id": "bt.connect.ex20",
+      "class": "CGenibo_Bt",
+      "robot_id": 0,
+      "call": "connect(5, 115200)",
+      "args": {
+        "port": "COM5",
+        "baudrate": 115200,
+        "parity": "None",
+        "data_bits": 8,
+        "stop_bits": "One"
+      },
+      "writes": []
+    },
+    {
+      "id": "bt.ex20.play",
+      "class": "CGenibo_Bt",
+      "robot_id": 0,
+      "call": "Cmd_Bluetooth_Play(0x20, 0, \u00227.act\u0022)",
+      "args": {
+        "robot": 32,
+        "storage": 0,
+        "name": "7.act"
+      },
+      "writes": [
+        "ff20400000003c00372e61637400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000033"
+      ]
+    },
+    {
+      "id": "bt.ex20.play.broadcast",
+      "class": "CGenibo_Bt",
+      "robot_id": 0,
+      "call": "Cmd_Bluetooth_Play(0xfe, 1, \u0022walk.act\u0022)",
+      "args": {
+        "robot": 254,
+        "storage": 1,
+        "name": "walk.act"
+      },
+      "writes": [
+        "fffe400000003c0177616c6b2e6163740000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004a"
+      ]
+    },
+    {
+      "id": "bt.motion_play_now.short",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_motion_play_now(1, \u0022a\u0022)",
+      "args": {
+        "storage": 1,
+        "name": "a"
+      },
+      "writes": [
+        "ff20400000003c0161000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003c"
+      ]
+    },
+    {
+      "id": "bt.motion_play_now.50",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_motion_play_now(1, \u0022aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.act\u0022)",
+      "args": {
+        "storage": 1,
+        "name": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.act"
+      },
+      "writes": [
+        "ff20400000003c01616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161612e61637400000000000000000005"
+      ]
+    },
+    {
+      "id": "bt.motion_play_now.51",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_motion_play_now(1, \u0022bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.act\u0022)",
+      "args": {
+        "storage": 1,
+        "name": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.act"
+      },
+      "writes": [
+        "ff20400000003c0162626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262622e616300000000000000000013"
+      ]
+    },
+    {
+      "id": "bt.motion_play_now.60",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_motion_play_now(1, \u0022cccccccccccccccccccccccccccccccccccccccccccccccccccccccc.act\u0022)",
+      "args": {
+        "storage": 1,
+        "name": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc.act"
+      },
+      "writes": [
+        "ff20400000003c0163636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363630000000000000000005d"
+      ]
+    },
+    {
+      "id": "bt.motion_play_at",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_motion_play(0, \u0022dance.act\u0022, 2024-05-06T07:08:09.1234567Z, 250)",
+      "args": {
+        "storage": 0,
+        "name": "dance.act",
+        "utc": "2024-05-06T07:08:09.1234567Z",
+        "add_ms": 250
+      },
+      "writes": [
+        "ff20400000003c0064616e63652e616374000000000000000000000000000000000000000000000000000000000000000000000000000000000000663881d90005b2d008"
+      ]
+    },
+    {
+      "id": "bt.action_play_alias",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "Action_Play(0, \u00227.act\u0022)",
+      "args": {
+        "storage": 0,
+        "name": "7.act"
+      },
+      "writes": [
+        "ff20400000003c00372e61637400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000033"
+      ]
+    },
+    {
+      "id": "bt.motion_stop",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_motion_stop()",
+      "args": {},
+      "writes": [
+        "ff20420000000062"
+      ]
+    },
+    {
+      "id": "bt.motion_is_playing",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_motion_is_playing()",
+      "args": {},
+      "writes": [
+        "ff20410000000061"
+      ]
+    },
+    {
+      "id": "bt.task_play",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_task_play(0, \u0022patrol.tsk\u0022)",
+      "args": {
+        "storage": 0,
+        "name": "patrol.tsk"
+      },
+      "writes": [
+        "ff20400000003400706174726f6c2e74736b000000000000000000000000000000000000000000000000000000000000000000000000000000000002"
+      ]
+    },
+    {
+      "id": "bt.task_play.51",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_task_play(1, \u0022bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.act\u0022)",
+      "args": {
+        "storage": 1,
+        "name": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.act"
+      },
+      "writes": [
+        "ff2040000000340162626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262622e6163746f"
+      ]
+    },
+    {
+      "id": "bt.task_stop",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_task_stop()",
+      "args": {},
+      "writes": [
+        "ff20420000000062"
+      ]
+    },
+    {
+      "id": "bt.task_is_playing",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_task_is_playing()",
+      "args": {},
+      "writes": [
+        "ff20410000000061"
+      ]
+    },
+    {
+      "id": "bt.filelist.master",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_filelist(0)",
+      "args": {
+        "storage": 0
+      },
+      "writes": [
+        "ff2031000000010010"
+      ]
+    },
+    {
+      "id": "bt.filelist.user",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_filelist(1)",
+      "args": {
+        "storage": 1
+      },
+      "writes": [
+        "ff2031000000010111"
+      ]
+    },
+    {
+      "id": "bt.file_delete",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_file_delete(1, \u0022old.act\u0022)",
+      "args": {
+        "storage": 1,
+        "name": "old.act"
+      },
+      "writes": [
+        "ff203400000034016f6c642e61637400000000000000000000000000000000000000000000000000000000000000000000000000000000000000001e"
+      ]
+    },
+    {
+      "id": "bt.file_delete_all",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_file_delete(0)",
+      "args": {
+        "storage": 0
+      },
+      "writes": [
+        "ff2035000000010014"
+      ]
+    },
+    {
+      "id": "bt.file_fetch",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_file_upload(0, \u00227.act\u0022)  [robot -\u003E PC]",
+      "args": {
+        "storage": 0,
+        "name": "7.act"
+      },
+      "writes": [
+        "ff20330000003400372e6163740000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000048"
+      ]
+    },
+    {
+      "id": "bt.file_send",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_file_download(1, payload(300 bytes), \u0022my.act\u0022)  [PC -\u003E robot]",
+      "args": {
+        "storage": 1,
+        "name": "my.act",
+        "content_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b"
+      },
+      "writes": [
+        "ff20320000016401000000016d792e616374000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b3b"
+      ]
+    },
+    {
+      "id": "bt.file_send.indexed",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_file_download(0, 2, 5, payload(300 bytes), \u0022part.act\u0022)",
+      "args": {
+        "storage": 0,
+        "name": "part.act",
+        "index": 2,
+        "total": 5,
+        "content_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b"
+      },
+      "writes": [
+        "ff2032000001640000020005706172742e61637400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b3f"
+      ]
+    },
+    {
+      "id": "bt.file_send.name60",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_file_download(1, payload, \u0022cccccccccccccccccccccccccccccccccccccccccccccccccccccccc.act\u0022)",
+      "args": {
+        "storage": 1,
+        "name": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc.act",
+        "content_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b"
+      },
+      "writes": [
+        "ff2032000001640100000001636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636300000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b77"
+      ]
+    },
+    {
+      "id": "bt.set_time",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_set_time(2023-11-03T12:34:56.7654321Z)",
+      "args": {
+        "utc": "2023-11-03T12:34:56.7654321Z"
+      },
+      "writes": [
+        "ff2061000000086544e8f0000badf82e"
+      ]
+    },
+    {
+      "id": "bt.get_time",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_time()",
+      "args": {},
+      "writes": [
+        "ff20620000000042"
+      ]
+    },
+    {
+      "id": "bt.battery",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_battery()",
+      "args": {},
+      "writes": [
+        "ff20630000000043"
+      ]
+    },
+    {
+      "id": "bt.charge",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_charge()",
+      "args": {},
+      "writes": [
+        "ff20640000000044"
+      ]
+    },
+    {
+      "id": "bt.remocon",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_remocon()",
+      "args": {},
+      "writes": [
+        "ff20650000000045"
+      ]
+    },
+    {
+      "id": "bt.heartbeat",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_heartbeat()",
+      "args": {},
+      "writes": [
+        "ff20f10000000051"
+      ]
+    },
+    {
+      "id": "bt.auth",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_auth(\u0022geniibo\u0022, \u00221234\u0022)",
+      "args": {
+        "user": "geniibo",
+        "password": "1234"
+      },
+      "writes": [
+        "ff20710000002a67656e6969626f00000000000000000000000000003132333400000000000000000000000000000000001e"
+      ]
+    },
+    {
+      "id": "bt.auth.long",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_auth(30 chars, 25 chars)",
+      "args": {
+        "user": "uuuuuuuuuuuuuuuuuuuuuuuuuuuuuu",
+        "password": "ppppppppppppppppppppppppp"
+      },
+      "writes": [
+        "ff20710000002a7575757575757575757575757575757575757575757070707070707070707070707070707070707070707e"
+      ]
+    },
+    {
+      "id": "bt.send_command",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "send_command(0x55)",
+      "args": {
+        "cmd": 85,
+        "data_hex": ""
+      },
+      "writes": [
+        "ff20550000000075"
+      ]
+    },
+    {
+      "id": "bt.send_data.300",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "send_data(0x32, 300, data)",
+      "args": {
+        "cmd": 50,
+        "data_hex": "00070e151c232a31383f464d545b626970777e858c939aa1a8afb6bdc4cbd2d9e0e7eef5fc030a11181f262d343b424950575e656c737a81888f969da4abb2b9c0c7ced5dce3eaf1f8ff060d141b222930373e454c535a61686f767d848b9299a0a7aeb5bcc3cad1d8dfe6edf4fb020910171e252c333a41484f565d646b727980878e959ca3aab1b8bfc6cdd4dbe2e9f0f7fe050c131a21282f363d444b525960676e757c838a91989fa6adb4bbc2c9d0d7dee5ecf3fa01080f161d242b323940474e555c636a71787f868d949ba2a9b0b7bec5ccd3dae1e8eff6fd040b121920272e353c434a51585f666d747b828990979ea5acb3bac1c8cfd6dde4ebf2f900070e151c232a31383f464d545b626970777e858c939aa1a8afb6bdc4cbd2d9e0e7eef5fc030a11181f262d"
+      },
+      "writes": [
+        "ff20320000012c00070e151c232a31383f464d545b626970777e858c939aa1a8afb6bdc4cbd2d9e0e7eef5fc030a11181f262d343b424950575e656c737a81888f969da4abb2b9c0c7ced5dce3eaf1f8ff060d141b222930373e454c535a61686f767d848b9299a0a7aeb5bcc3cad1d8dfe6edf4fb020910171e252c333a41484f565d646b727980878e959ca3aab1b8bfc6cdd4dbe2e9f0f7fe050c131a21282f363d444b525960676e757c838a91989fa6adb4bbc2c9d0d7dee5ecf3fa01080f161d242b323940474e555c636a71787f868d949ba2a9b0b7bec5ccd3dae1e8eff6fd040b121920272e353c434a51585f666d747b828990979ea5acb3bac1c8cfd6dde4ebf2f900070e151c232a31383f464d545b626970777e858c939aa1a8afb6bdc4cbd2d9e0e7eef5fc030a11181f262d2b"
+      ]
+    },
+    {
+      "id": "bt.servo.move.multi",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "set_cmd_angle(0,10) set_cmd_angle(1,-25.5) set_cmd(2,600) request_move(1000)",
+      "args": {
+        "time_ms": 1000,
+        "targets": [
+          {
+            "axis": 0,
+            "angle": 10
+          },
+          {
+            "axis": 1,
+            "angle": -25.5
+          },
+          {
+            "axis": 2,
+            "raw": 600
+          }
+        ]
+      },
+      "writes": [
+        "ff208100000014ffff14fe06b04e591f0200004e0200015802000f7b"
+      ]
+    },
+    {
+      "id": "bt.servo.move.flags",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "led(0: g,r) speed-mode(1) angle(1)=100 request_move(500)",
+      "args": {
+        "time_ms": 500
+      },
+      "writes": [
+        "ff208100000010ffff10fe06b44a2d0f0214009cff0a017b"
+      ]
+    },
+    {
+      "id": "bt.servo.move.single",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "set_cmd_angle(2, 30) request_move(2, 300)",
+      "args": {
+        "axis": 2,
+        "angle": 30,
+        "time_ms": 300
+      },
+      "writes": [
+        "ff20810000000cffff0cfe06be401b5c02000f6d"
+      ]
+    },
+    {
+      "id": "bt.servo.move.limit_clip",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "axis3 limits(\u002B60,-45) set_cmd_angle(3, 90) request_move(200)",
+      "args": {
+        "axis": 3,
+        "angle": 90,
+        "time_ms": 200
+      },
+      "writes": [
+        "ff20810000000cffff0cfe064eb012ac0200071c"
+      ]
+    },
+    {
+      "id": "bt.servo.move.empty",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_move(1000) with no targets",
+      "args": {
+        "time_ms": 1000
+      },
+      "writes": [
+        "ff208100000008ffff08fe06a856597e"
+      ]
+    },
+    {
+      "id": "bt.servo.torque.on",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "drvsrv(true, true)",
+      "args": {
+        "driver": true,
+        "servo": true
+      },
+      "writes": [
+        "ff20810000000affff0afe03a25c34016077"
+      ]
+    },
+    {
+      "id": "bt.servo.torque.off",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "drvsrv(false, false)",
+      "args": {
+        "driver": false,
+        "servo": false
+      },
+      "writes": [
+        "ff20810000000affff0afe03c23c34010017"
+      ]
+    },
+    {
+      "id": "bt.servo.torque.brake",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "drvsrv(true, false)",
+      "args": {
+        "driver": true,
+        "servo": false
+      },
+      "writes": [
+        "ff20810000000affff0afe03827c34014057"
+      ]
+    },
+    {
+      "id": "bt.servo.torque.axis",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "drvsrv(3, true, true) [axis 3 -\u003E id 7]",
+      "args": {
+        "axis": 3,
+        "driver": true,
+        "servo": true
+      },
+      "writes": [
+        "ff20810000000affff0a07035aa43401600e"
+      ]
+    },
+    {
+      "id": "bt.servo.stop",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_stop()",
+      "args": {},
+      "writes": []
+    },
+    {
+      "id": "bt.servo.ems",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_ems()",
+      "args": {},
+      "writes": [
+        "ff20810000000affff0afe03c23c34010017"
+      ]
+    },
+    {
+      "id": "bt.servo.reset",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "reset()",
+      "args": {},
+      "writes": [
+        "ff208100000007ffff07fe06fe0027"
+      ]
+    },
+    {
+      "id": "bt.servo.move_after_stop",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "request_stop(); set_cmd_angle(0,10); request_move(1000)",
+      "args": {},
+      "writes": []
+    },
+    {
+      "id": "bt.servo.stop_axis",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "set_cmd_angle(0,10); request_stop(0)",
+      "args": {},
+      "writes": [
+        "ff20810000000cffff0cfe06b04e591f02010062"
+      ]
+    },
+    {
+      "id": "bt.mpsu.headled_buzz",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "serial_mpsu_play_headled_buzz(0xfe, 3, 5)",
+      "args": {
+        "mpsu": 254,
+        "led": 3,
+        "buzz": 5
+      },
+      "writes": [
+        "ff208100000009ffff09fe18e81603053f"
+      ]
+    },
+    {
+      "id": "bt.mpsu.headled",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "serial_mpsu_play_headled(0x40, 7)",
+      "args": {
+        "mpsu": 64,
+        "led": 7
+      },
+      "writes": [
+        "ff208100000009ffff09401856a8070000"
+      ]
+    },
+    {
+      "id": "bt.mpsu.buzz",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "serial_mpsu_play_buzz(0xfe, 9)",
+      "args": {
+        "mpsu": 254,
+        "buzz": 9
+      },
+      "writes": [
+        "ff208100000009ffff09fe18e618000930"
+      ]
+    },
+    {
+      "id": "bt.mpsu.task",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "serial_mpsu_play_task(0xfe, 1)",
+      "args": {
+        "mpsu": 254,
+        "task": 1
+      },
+      "writes": [
+        "ff208100000008ffff08fe17e01e0137"
+      ]
+    },
+    {
+      "id": "bt.mpsu.motion",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "serial_mpsu_play_motion(0xfe, 12, true)",
+      "args": {
+        "mpsu": 254,
+        "motion": 12,
+        "ready": true
+      },
+      "writes": [
+        "ff208100000009ffff09fe16ec120c013a"
+      ]
+    },
+    {
+      "id": "bt.mpsu.rom1",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "serial_mpsu_write_rom(0x40, 7, 0x41)",
+      "args": {
+        "mpsu": 64,
+        "address": 7,
+        "data_hex": "41"
+      },
+      "writes": [
+        "ff20810000000affff0a40111ce207014149"
+      ]
+    },
+    {
+      "id": "bt.mpsu.rom3",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "serial_mpsu_write_rom(0x40, 10, {1,2,3})",
+      "args": {
+        "mpsu": 64,
+        "address": 10,
+        "data_hex": "010203"
+      },
+      "writes": [
+        "ff20810000000cffff0c401154aa0a0301020307"
+      ]
+    },
+    {
+      "id": "bt.mpsu.ram1",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "serial_mpsu_write_ram(0x40, 0, 0x41)",
+      "args": {
+        "mpsu": 64,
+        "address": 0,
+        "data_hex": "41"
+      },
+      "writes": [
+        "ff20810000000affff0a401318e60001414c"
+      ]
+    },
+    {
+      "id": "bt.mpsu.ram2",
+      "class": "CGenibo_Bt",
+      "robot_id": 32,
+      "call": "serial_mpsu_write_ram(0x40, 20, {9,8})",
+      "args": {
+        "mpsu": 64,
+        "address": 20,
+        "data_hex": "0908"
+      },
+      "writes": [
+        "ff20810000000bffff0b40134eb0140209081b"
+      ]
+    },
+    {
+      "id": "bt.mpsu_direct.battery",
+      "class": "CGenibo_Bt",
+      "robot_id": 64,
+      "call": "drbluetooth_mpsu_request_battery()",
+      "args": {},
+      "writes": [
+        "ffff0940141ce24607"
+      ]
+    },
+    {
+      "id": "bt.mpsu_direct.motion",
+      "class": "CGenibo_Bt",
+      "robot_id": 64,
+      "call": "drbluetooth_mpsu_request_motion_play(5, false)",
+      "args": {
+        "motion": 5,
+        "ready": false
+      },
+      "writes": [
+        "ffff0940165aa40500"
+      ]
+    },
+    {
+      "id": "bt.mpsu_direct.motion_ready",
+      "class": "CGenibo_Bt",
+      "robot_id": 64,
+      "call": "drbluetooth_mpsu_request_motion_play(5, true)",
+      "args": {
+        "motion": 5,
+        "ready": true
+      },
+      "writes": [
+        "ffff0940165aa40501"
+      ]
+    },
+    {
+      "id": "bt.mpsu_direct.motion_stop",
+      "class": "CGenibo_Bt",
+      "robot_id": 64,
+      "call": "drbluetooth_mpsu_request_motion_stop()",
+      "args": {},
+      "writes": [
+        "ffff094016a05efe00"
+      ]
+    },
+    {
+      "id": "bt.mpsu_direct.motion_reserve",
+      "class": "CGenibo_Bt",
+      "robot_id": 64,
+      "call": "drbluetooth_mpsu_request_motion_play_reserve(5, false, 1500)",
+      "args": {
+        "motion": 5,
+        "ready": false,
+        "delay_ms": 1500
+      },
+      "writes": [
+        "ffff0b4016807e0500dc05"
+      ]
+    },
+    {
+      "id": "bt.mpsu_direct.play_mpsu",
+      "class": "CGenibo_Bt",
+      "robot_id": 0,
+      "call": "Cmd_Bluetooth_Play_Mpsu(0xfe, 3)",
+      "args": {
+        "robot": 254,
+        "motion": 3
+      },
+      "writes": [
+        "ffff09fe16e21c0300"
+      ]
+    },
+    {
+      "id": "bt.mpsu_direct.motor_move",
+      "class": "CGenibo_Bt",
+      "robot_id": 64,
+      "call": "set_cmd_angle(0,10) set_cmd_angle(1,-25.5) drbluetooth_mpsu_motor_request_move(800)",
+      "args": {
+        "time_ms": 800,
+        "targets": [
+          {
+            "axis": 0,
+            "angle": 10
+          },
+          {
+            "axis": 1,
+            "angle": -25.5
+          }
+        ]
+      },
+      "writes": [
+        "ff408100000010ffff10400f48b6471f0200004e02000167"
+      ]
+    },
+    {
+      "id": "tcp.auth",
+      "class": "CGenibo",
+      "robot_id": -1,
+      "call": "Auth(\u0022geniibo\u0022, \u00221234\u0022)",
+      "args": {
+        "user": "geniibo",
+        "password": "1234"
+      },
+      "writes": [
+        {
+          "channel": 0,
+          "hex": "ff90710000002a67656e6969626f00000000000000000000000000003132333400000000000000000000000000000000002e"
+        },
+        {
+          "channel": 1,
+          "hex": "ff91710000002a67656e6969626f00000000000000000000000000003132333400000000000000000000000000000000002f"
+        },
+        {
+          "channel": 2,
+          "hex": "ff92710000002a67656e6969626f00000000000000000000000000003132333400000000000000000000000000000000002c"
+        },
+        {
+          "channel": 3,
+          "hex": "ff93710000002a67656e6969626f00000000000000000000000000003132333400000000000000000000000000000000002d"
+        },
+        {
+          "channel": 4,
+          "hex": "ff94710000002a67656e6969626f00000000000000000000000000003132333400000000000000000000000000000000002a"
+        },
+        {
+          "channel": 5,
+          "hex": "ff95710000002a67656e6969626f00000000000000000000000000003132333400000000000000000000000000000000002b"
+        }
+      ]
+    },
+    {
+      "id": "tcp.action_play.master",
+      "class": "CGenibo",
+      "robot_id": -1,
+      "call": "ActionPlay(true, \u00227.act\u0022, false, false, 100)",
+      "args": {
+        "master": true,
+        "name": "7.act",
+        "sound": false,
+        "emoticon": false,
+        "speed": 100
+      },
+      "writes": [
+        {
+          "channel": 3,
+          "hex": "ff933300000013372e616374000000000000000000000000006438"
+        }
+      ]
+    },
+    {
+      "id": "tcp.action_play.user",
+      "class": "CGenibo",
+      "robot_id": -1,
+      "call": "ActionPlay(false, \u0022walk.act\u0022, true, true, 50)",
+      "args": {
+        "master": false,
+        "name": "walk.act",
+        "sound": true,
+        "emoticon": true,
+        "speed": 50
+      },
+      "writes": [
+        {
+          "channel": 3,
+          "hex": "ff93340000001377616c6b2e61637400000000000000000101324f"
+        }
+      ]
+    },
+    {
+      "id": "tcp.action_play.long",
+      "class": "CGenibo",
+      "robot_id": -1,
+      "call": "ActionPlay(true, \u0022abcdefghijklmnopqrst.act\u0022, true, false, 255)",
+      "args": {
+        "master": true,
+        "name": "abcdefghijklmnopqrst.act",
+        "sound": true,
+        "emoticon": false,
+        "speed": 255
+      },
+      "writes": [
+        {
+          "channel": 3,
+          "hex": "ff9333000000136162636465666768696a6b6c6d6e6f000100ff2d"
+        }
+      ]
+    },
+    {
+      "id": "tcp.send_data",
+      "class": "CGenibo",
+      "robot_id": -1,
+      "call": "SendData(4, 0x81, 0, [])",
+      "args": {
+        "channel": 4,
+        "cmd": 129,
+        "data_hex": ""
+      },
+      "writes": [
+        {
+          "channel": 4,
+          "hex": "ff94810000000015"
+        }
+      ]
+    }
+  ],
+  "rx": [
+    {
+      "id": "rx.battery",
+      "robot_id": 32,
+      "input": "ff206300000002554b5f",
+      "result": {
+        "battery_robot": 85,
+        "battery_mid": 75,
+        "status": 0,
+        "seq": 1
+      },
+      "note": ""
+    },
+    {
+      "id": "rx.playing",
+      "robot_id": 32,
+      "input": "ff2041000000010161",
+      "result": {
+        "is_playing": true,
+        "seq": 1
+      },
+      "note": ""
+    },
+    {
+      "id": "rx.time",
+      "robot_id": 32,
+      "input": "ff2062000000086544e850000b6f5d6a",
+      "result": {
+        "time_sec": 1699014736,
+        "time_usec": 749405,
+        "seq": 1
+      },
+      "note": ""
+    },
+    {
+      "id": "rx.remocon",
+      "robot_id": 32,
+      "input": "ff206500000002032165",
+      "result": {
+        "remocon_length": 3,
+        "remocon_data": 33,
+        "seq": 1
+      },
+      "note": ""
+    },
+    {
+      "id": "rx.filelist.master",
+      "robot_id": 32,
+      "input": "ff203100000069000002372e6163740000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000077616c6b2e616374000000000000000000000000000000000000000000000000000000000000000000000000000000000000005c",
+      "result": {
+        "count": 2,
+        "names": [
+          "7.act",
+          "walk.act"
+        ],
+        "seq": 1
+      },
+      "note": ""
+    },
+    {
+      "id": "rx.filelist.user",
+      "robot_id": 32,
+      "input": "ff2031000000360100016d696e652e6163740000000000000000000000000000000000000000000000000000000000000000000000000000000000000070",
+      "result": {
+        "count": 1,
+        "names": [
+          "mine.act"
+        ],
+        "seq": 1
+      },
+      "note": ""
+    },
+    {
+      "id": "rx.status",
+      "robot_id": 32,
+      "input": "ff20f000000002400210",
+      "result": {
+        "status": 2,
+        "seq": 1
+      },
+      "note": ""
+    },
+    {
+      "id": "rx.broadcast_id",
+      "robot_id": 32,
+      "input": "fffe63000000020a1401",
+      "result": {
+        "battery_robot": 10,
+        "battery_mid": 20,
+        "seq": 1
+      },
+      "note": ""
+    },
+    {
+      "id": "rx.other_id_ignored",
+      "robot_id": 32,
+      "input": "ff2163000000020a145e",
+      "result": {
+        "battery_robot": 0,
+        "battery_mid": 0,
+        "seq": 0
+      },
+      "note": ""
+    },
+    {
+      "id": "rx.bad_checksum",
+      "robot_id": 32,
+      "input": "ff206300000002554b5e",
+      "result": {
+        "battery_robot": 0,
+        "battery_mid": 0,
+        "seq": 0
+      },
+      "note": ""
+    },
+    {
+      "id": "rx.zero_length_then_battery",
+      "robot_id": 32,
+      "input": "ff20f10000000051ff206300000002554b5f",
+      "result": {
+        "battery_robot": 0,
+        "battery_mid": 0,
+        "status": 0,
+        "seq": 0
+      },
+      "note": "Legacy parser consumes one extra byte after a zero-length frame; documents the quirk."
+    },
+    {
+      "id": "rx.two_frames",
+      "robot_id": 32,
+      "input": "ff2041000000010161ff206300000002303140",
+      "result": {
+        "is_playing": true,
+        "battery_robot": 48,
+        "battery_mid": 49,
+        "seq": 2
+      },
+      "note": ""
+    },
+    {
+      "id": "rx.mpsu_ram",
+      "robot_id": 64,
+      "input": "ffff0e40545ea046031122330000",
+      "result": {
+        "ram_70_76": [
+          70,
+          3,
+          17,
+          0,
+          0,
+          0,
+          0
+        ],
+        "seq": 1
+      },
+      "note": "Legacy parser copies the payload starting at the address byte, not at the data."
+    }
+  ],
+  "tables": [
+    {
+      "id": "calc_time_ms",
+      "inputs": [
+        0,
+        1,
+        5,
+        6,
+        11,
+        12,
+        17,
+        50,
+        100,
+        112,
+        168,
+        280,
+        500,
+        1000,
+        1500,
+        2000,
+        2850,
+        2856,
+        2862,
+        3000,
+        5000
+      ],
+      "outputs": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        2,
+        4,
+        9,
+        10,
+        15,
+        25,
+        45,
+        89,
+        134,
+        179,
+        254,
+        255,
+        256,
+        268,
+        446
+      ]
+    },
+    {
+      "id": "angle_to_raw.0",
+      "center": 512,
+      "mech": 1024,
+      "degree": 333.3,
+      "dir": 0,
+      "inputs": [
+        -180,
+        -90,
+        -45.5,
+        -25.5,
+        -10,
+        -1,
+        -0.5,
+        0,
+        0.1,
+        0.5,
+        1,
+        1.5,
+        2.5,
+        3,
+        5,
+        10,
+        30,
+        33.33,
+        45,
+        90,
+        120.7,
+        150,
+        166.65,
+        180
+      ],
+      "outputs": [
+        -41,
+        235,
+        372,
+        434,
+        481,
+        509,
+        510,
+        512,
+        512,
+        514,
+        515,
+        517,
+        520,
+        521,
+        527,
+        543,
+        604,
+        614,
+        650,
+        789,
+        883,
+        973,
+        1024,
+        1065
+      ]
+    },
+    {
+      "id": "raw_to_angle.0",
+      "center": 512,
+      "mech": 1024,
+      "degree": 333.3,
+      "dir": 0,
+      "inputs": [
+        0,
+        1,
+        100,
+        255,
+        256,
+        511,
+        512,
+        513,
+        700,
+        1023,
+        2048,
+        4095
+      ],
+      "outputs": [
+        -166.64999389648438,
+        -166.3245086669922,
+        -134.10116577148438,
+        -83.65048217773438,
+        -83.32499694824219,
+        -0.32548826932907104,
+        0,
+        0.32548826932907104,
+        61.191795349121094,
+        166.3245086669922,
+        499.9499816894531,
+        1166.2244873046875
+      ]
+    },
+    {
+      "id": "angle_to_raw.1",
+      "center": 512,
+      "mech": 1024,
+      "degree": 333.3,
+      "dir": 1,
+      "inputs": [
+        -180,
+        -90,
+        -45.5,
+        -25.5,
+        -10,
+        -1,
+        -0.5,
+        0,
+        0.1,
+        0.5,
+        1,
+        1.5,
+        2.5,
+        3,
+        5,
+        10,
+        30,
+        33.33,
+        45,
+        90,
+        120.7,
+        150,
+        166.65,
+        180
+      ],
+      "outputs": [
+        1065,
+        789,
+        652,
+        590,
+        543,
+        515,
+        514,
+        512,
+        512,
+        510,
+        509,
+        507,
+        504,
+        503,
+        497,
+        481,
+        420,
+        410,
+        374,
+        235,
+        141,
+        51,
+        0,
+        -41
+      ]
+    },
+    {
+      "id": "raw_to_angle.1",
+      "center": 512,
+      "mech": 1024,
+      "degree": 333.3,
+      "dir": 1,
+      "inputs": [
+        0,
+        1,
+        100,
+        255,
+        256,
+        511,
+        512,
+        513,
+        700,
+        1023,
+        2048,
+        4095
+      ],
+      "outputs": [
+        166.64999389648438,
+        166.3245086669922,
+        134.10116577148438,
+        83.65048217773438,
+        83.32499694824219,
+        0.32548826932907104,
+        -0,
+        -0.32548826932907104,
+        -61.191795349121094,
+        -166.3245086669922,
+        -499.9499816894531,
+        -1166.2244873046875
+      ]
+    },
+    {
+      "id": "angle_to_raw.2",
+      "center": 0,
+      "mech": 2,
+      "degree": 4,
+      "dir": 0,
+      "inputs": [
+        -180,
+        -90,
+        -45.5,
+        -25.5,
+        -10,
+        -1,
+        -0.5,
+        0,
+        0.1,
+        0.5,
+        1,
+        1.5,
+        2.5,
+        3,
+        5,
+        10,
+        30,
+        33.33,
+        45,
+        90,
+        120.7,
+        150,
+        166.65,
+        180
+      ],
+      "outputs": [
+        -90,
+        -45,
+        -23,
+        -13,
+        -5,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        2,
+        2,
+        5,
+        15,
+        17,
+        22,
+        45,
+        60,
+        75,
+        83,
+        90
+      ]
+    },
+    {
+      "id": "raw_to_angle.2",
+      "center": 0,
+      "mech": 2,
+      "degree": 4,
+      "dir": 0,
+      "inputs": [
+        0,
+        1,
+        100,
+        255,
+        256,
+        511,
+        512,
+        513,
+        700,
+        1023,
+        2048,
+        4095
+      ],
+      "outputs": [
+        0,
+        2,
+        200,
+        510,
+        512,
+        1022,
+        1024,
+        1026,
+        1400,
+        2046,
+        4096,
+        8190
+      ]
+    },
+    {
+      "id": "angle_to_raw.3",
+      "center": 2048,
+      "mech": 4096,
+      "degree": 360,
+      "dir": 1,
+      "inputs": [
+        -180,
+        -90,
+        -45.5,
+        -25.5,
+        -10,
+        -1,
+        -0.5,
+        0,
+        0.1,
+        0.5,
+        1,
+        1.5,
+        2.5,
+        3,
+        5,
+        10,
+        30,
+        33.33,
+        45,
+        90,
+        120.7,
+        150,
+        166.65,
+        180
+      ],
+      "outputs": [
+        4096,
+        3072,
+        2566,
+        2338,
+        2162,
+        2059,
+        2054,
+        2048,
+        2047,
+        2042,
+        2037,
+        2031,
+        2020,
+        2014,
+        1991,
+        1934,
+        1707,
+        1669,
+        1536,
+        1024,
+        675,
+        341,
+        152,
+        0
+      ]
+    },
+    {
+      "id": "raw_to_angle.3",
+      "center": 2048,
+      "mech": 4096,
+      "degree": 360,
+      "dir": 1,
+      "inputs": [
+        0,
+        1,
+        100,
+        255,
+        256,
+        511,
+        512,
+        513,
+        700,
+        1023,
+        2048,
+        4095
+      ],
+      "outputs": [
+        180,
+        179.912109375,
+        171.2109375,
+        157.587890625,
+        157.5,
+        135.087890625,
+        135,
+        134.912109375,
+        118.4765625,
+        90.087890625,
+        -0,
+        -179.912109375
+      ]
+    },
+    {
+      "id": "set_cmd_angle.clip",
+      "center": 512,
+      "mech": 1024,
+      "degree": 333.3,
+      "dir": 0,
+      "limit_up": 60,
+      "limit_dn": -45,
+      "inputs": [
+        -90,
+        -45,
+        -44.9,
+        0,
+        59.9,
+        60,
+        61,
+        120
+      ],
+      "outputs": [
+        374,
+        374,
+        374,
+        512,
+        696,
+        696,
+        696,
+        696
+      ]
+    },
+    {
+      "id": "set_cmd_angle.clip.dir1",
+      "center": 512,
+      "mech": 1024,
+      "degree": 333.3,
+      "dir": 1,
+      "limit_up": 60,
+      "limit_dn": -45,
+      "inputs": [
+        -90,
+        -45,
+        -44.9,
+        0,
+        59.9,
+        60,
+        61,
+        120
+      ],
+      "outputs": [
+        650,
+        650,
+        650,
+        512,
+        328,
+        328,
+        328,
+        328
+      ]
+    }
+  ]
+}

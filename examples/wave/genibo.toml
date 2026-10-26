@@ -1,0 +1,20 @@
+[project]
+name = "wave"
+kind = "program"
+entry = "src/main.py"
+
+[robot]
+id = 0x20
+baudrate = 115200
+encoding = "ascii"
+
+[joints]
+profile = "legacy-cgenibo"
+
+# Example of a per-joint override. Values are illustrative and NOT verified.
+[joints.tail]
+limit_up = 45.0
+limit_dn = -45.0
+
+[build]
+out_dir = "build"

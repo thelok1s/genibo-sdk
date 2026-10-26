@@ -1,0 +1,66 @@
+[project]
+name = "genibo"
+version = "0.1.0"
+description = "Python-first SDK, toolchain, simulator and studio for the Genibo robot (successor to the OpenJigWare C# tooling)"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "Genibo SDK contributors" }]
+keywords = ["genibo", "robot", "herkulex", "openjigware", "bluetooth"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Topic :: Scientific/Engineering :: Robotics",
+    "Typing :: Typed",
+]
+dependencies = [
+    "pyserial>=3.5",
+]
+
+[project.optional-dependencies]
+studio = [
+    "PySide6-Essentials>=6.6",
+]
+
+[project.scripts]
+genibo = "genibo.cli:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "hypothesis>=6.100",
+    "ruff>=0.6",
+    "pyright>=1.1.380",
+]
+
+[build-system]
+requires = ["uv_build>=0.8,<0.14"]
+build-backend = "uv_build"
+
+[tool.uv]
+default-groups = ["dev"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+markers = [
+    "hardware: needs a physical Genibo (set GENIBO_PORT or GENIBO_HOST); skipped otherwise",
+    "dotnet: regenerates golden data with the .NET reference harness; skipped without dotnet",
+    "studio: needs PySide6 (install the 'studio' extra)",
+]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF"]
+ignore = ["RUF001", "RUF002", "RUF003", "E501"]
+
+[tool.pyright]
+include = ["src", "tests"]
+pythonVersion = "3.11"
+typeCheckingMode = "standard"
+reportMissingModuleSource = false

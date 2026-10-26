@@ -1,0 +1,15 @@
+[project]
+name = "greeting"
+kind = "program"
+entry = "src/main.py"
+
+[robot]
+id = 0x20
+baudrate = 115200
+encoding = "ascii"
+
+[joints]
+profile = "legacy-cgenibo"
+
+[build]
+out_dir = "build"

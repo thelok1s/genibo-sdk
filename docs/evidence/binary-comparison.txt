@@ -1,0 +1,69 @@
+## Examples-master/1/Ex20_Genibo/WindowsFormsApplication1/WindowsFormsApplication1/bin/Debug/OpenJigWare.dll
+  CGenibo_Bt: 289 members, identical 278, different 11, unmatched 0
+    differs: private class CdrOjwTimer
+    differs: public CGenibo_Bt()
+    differs: public int GetBuffer_Length()
+    differs: public bool connected()
+    differs: public bool connect(int nBluetoothSppPort, int nBaudRate)
+    differs: private void Parser(int nCmd, int nLength, byte[] pbyteData, byte byteCheckSum)
+    differs: public int get_int32(byte byData0, byte byData1, byte byData2, byte byData3)
+    differs: public bool request_motion_play(int nMaster_or_User, string strMotionFileName)
+    differs: public bool request_file_download(int n_0_Master_or_1_User, string strFile_Path_Name_Exe_in_PC, string strFile
+    differs: public bool request_file_download(int n_0_Master_or_1_User, int nIndexCurrFile, int nNumTotalFile, string strF
+    differs: public void Make_And_Send_Packet(int nID, int nCmd, int nDataByteSize, byte[] pbytePacket)
+  CGenibo: 54 members, identical 46, different 8, unmatched 0
+    differs: public bool Connect(string strIp)
+    differs: public void DisConnect()
+    differs: public void Receive_Robot()
+    differs: public void Receive_Sound()
+    differs: public void Receive_Vision()
+    differs: public void Receive_Motion()
+    differs: public void Receive_Sensor()
+    differs: public void Receive_Emoticon()
+## Examples-master/1/Released_DLL/OpenJigWare.dll
+  CGenibo_Bt: 289 members, identical 278, different 11, unmatched 0
+    differs: private class CdrOjwTimer
+    differs: public CGenibo_Bt()
+    differs: public int GetBuffer_Length()
+    differs: public bool connected()
+    differs: public bool connect(int nBluetoothSppPort, int nBaudRate)
+    differs: private void Parser(int nCmd, int nLength, byte[] pbyteData, byte byteCheckSum)
+    differs: public int get_int32(byte byData0, byte byData1, byte byData2, byte byData3)
+    differs: public bool request_motion_play(int nMaster_or_User, string strMotionFileName)
+    differs: public bool request_file_download(int n_0_Master_or_1_User, string strFile_Path_Name_Exe_in_PC, string strFile
+    differs: public bool request_file_download(int n_0_Master_or_1_User, int nIndexCurrFile, int nNumTotalFile, string strF
+    differs: public void Make_And_Send_Packet(int nID, int nCmd, int nDataByteSize, byte[] pbytePacket)
+  CGenibo: 54 members, identical 46, different 8, unmatched 0
+    differs: public bool Connect(string strIp)
+    differs: public void DisConnect()
+    differs: public void Receive_Robot()
+    differs: public void Receive_Sound()
+    differs: public void Receive_Vision()
+    differs: public void Receive_Motion()
+    differs: public void Receive_Sensor()
+    differs: public void Receive_Emoticon()
+## Tool-master/Tools/Released_DLL/OpenJigWare.dll
+  CGenibo_Bt: 289 members, identical 278, different 11, unmatched 0
+    differs: private class CdrOjwTimer
+    differs: public CGenibo_Bt()
+    differs: public int GetBuffer_Length()
+    differs: public bool connected()
+    differs: public bool connect(int nBluetoothSppPort, int nBaudRate)
+    differs: private void Parser(int nCmd, int nLength, byte[] pbyteData, byte byteCheckSum)
+    differs: public int get_int32(byte byData0, byte byData1, byte byData2, byte byData3)
+    differs: public bool request_motion_play(int nMaster_or_User, string strMotionFileName)
+    differs: public bool request_file_download(int n_0_Master_or_1_User, string strFile_Path_Name_Exe_in_PC, string strFile
+    differs: public bool request_file_download(int n_0_Master_or_1_User, int nIndexCurrFile, int nNumTotalFile, string strF
+    differs: public void Make_And_Send_Packet(int nID, int nCmd, int nDataByteSize, byte[] pbytePacket)
+  CGenibo: 54 members, identical 46, different 8, unmatched 0
+    differs: public bool Connect(string strIp)
+    differs: public void DisConnect()
+    differs: public void Receive_Robot()
+    differs: public void Receive_Sound()
+    differs: public void Receive_Vision()
+    differs: public void Receive_Motion()
+    differs: public void Receive_Sensor()
+    differs: public void Receive_Emoticon()
+210b059ef986ed8203dc0b01f543439f4c5a47e7f4055924d3fac53c1a37c839  Examples-master/1/Ex20_Genibo/WindowsFormsApplication1/WindowsFormsApplication1/bin/Debug/OpenJigWare.dll
+b7a2b4fc5ae086cc86a0a67a135f073f4bd6e32182108ae8d8554994de72493d  Examples-master/1/Released_DLL/OpenJigWare.dll
+7f7c1223a09ae2737eb960bba09afd33fa859e3b827ba45daad7b63d138b9cdc  Tool-master/Tools/Released_DLL/OpenJigWare.dll

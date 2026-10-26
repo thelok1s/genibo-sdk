@@ -1,0 +1,12 @@
+[project]
+name = "status_monitor"
+kind = "script"
+entry = "src/main.py"
+
+[robot]
+id = 0x20
+baudrate = 115200
+encoding = "ascii"
+
+[joints]
+profile = "legacy-cgenibo"

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Genibo Studio
+GenericName=Robot development studio
+Comment=Write, simulate and run programs for the Genibo robot
+Exec=genibo-studio %f
+Icon=genibo-studio
+Terminal=false
+Categories=Development;IDE;Education;
+Keywords=robot;genibo;python;herkulex;
+StartupWMClass=genibo-studio

@@ -1,0 +1,14 @@
+# Port of Ex20_Genibo (C# WinForms, ojw5014/Examples; source copy in compat/legacy/) to a Python host script.
+[project]
+name = "ex20_genibo"
+kind = "script"
+entry = "src/main.py"
+
+[robot]
+id = 0x20          # Ex20 called Cmd_Bluetooth_Play(0x20, ...)
+port = ""          # Ex20 used COM5 (connect(5, 115200))
+baudrate = 115200
+encoding = "ascii"
+
+[joints]
+profile = "legacy-cgenibo"

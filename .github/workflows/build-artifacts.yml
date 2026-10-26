@@ -1,0 +1,275 @@
+# Build, verify and (on v* tags) release Genibo Studio for Windows, macOS and Linux.
+#
+# Artifacts per run:
+#   windows-x64     Genibo-Studio-<v>-windows-x64-setup.exe (Inno Setup) + .zip
+#   macos-arm64     Genibo-Studio-<v>-macos-arm64.dmg      (Apple silicon, macOS 14+)
+#   macos-x86_64    Genibo-Studio-<v>-macos-x86_64.dmg     (Intel, macOS 14+)
+#   linux-x86_64    genibo-studio_<v>_amd64.deb, genibo-studio-<v>-1.x86_64.rpm, .tar.gz
+#   linux-arm64     genibo-studio_<v>_arm64.deb, genibo-studio-<v>-1.aarch64.rpm, .tar.gz
+#   python-dist     genibo-<v>-py3-none-any.whl + sdist
+#
+# Every app is self-tested headless after building; the DMG and the Windows installer
+# are verified as an end user would get them; .deb/.rpm are installed into clean
+# distribution containers (dependency resolution + ldd + self-test).
+#
+# Release: push a tag "v<version>" equal to [project].version in pyproject.toml.
+# Builds are unsigned (macOS ad-hoc signature only); see docs/PACKAGING.md.
+
+name: Build artifacts
+
+on:
+  push:
+    branches: [main, master]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Package version override (e.g. 0.2.0~rc1); default derives from pyproject"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-artifacts-${{ github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
+
+env:
+  PYTHON_VERSION: "3.13"
+  PYINSTALLER_VERSION: "6.22.3"
+  NFPM_VERSION: "2.48.0"
+  UV_LOCKED: "1"
+  FORCE_COLOR: "1"
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  version:
+    name: Resolve version
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      version: ${{ steps.v.outputs.version }}
+      package_version: ${{ steps.v.outputs.package_version }}
+      prerelease: ${{ steps.v.outputs.prerelease }}
+    steps:
+      - uses: actions/checkout@v7
+      - id: v
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          pv="$(python3 -c 'import tomllib; print(tomllib.load(open("pyproject.toml","rb"))["project"]["version"])')"
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            tv="${GITHUB_REF_NAME#v}"
+            if [[ "$tv" != "$pv" ]]; then
+              echo "::error::tag ${GITHUB_REF_NAME} does not match pyproject version ${pv}"; exit 1
+            fi
+            v="$pv"
+          elif [[ -n "${INPUT_VERSION}" ]]; then
+            v="${INPUT_VERSION}"
+          else
+            v="${pv}.dev${GITHUB_RUN_NUMBER}"
+          fi
+          if ! [[ "$v" =~ ^[0-9]+(\.[0-9]+){1,3}([.~+-]?[0-9A-Za-z.~+]+)?$ ]]; then
+            echo "::error::invalid version '$v'"; exit 1
+          fi
+          # deb/rpm order "0.2.0rc1" AFTER "0.2.0"; "~" sorts before, so PEP 440 pre-releases become "0.2.0~rc1".
+          pkg="$(sed -E 's/^([0-9]+(\.[0-9]+)*)\.?((a|b|rc|dev)[0-9]+.*)$/\1~\3/' <<<"$v")"
+          pre=false; [[ "$pkg" == *"~"* ]] && pre=true
+          {
+            echo "version=$v"
+            echo "package_version=$pkg"
+            echo "prerelease=$pre"
+          } >> "$GITHUB_OUTPUT"
+          echo "version=$v package_version=$pkg prerelease=$pre" | tee -a "$GITHUB_STEP_SUMMARY"
+
+  test:
+    name: Tests (lint, types, golden, studio)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10
+        with:
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: "6.0.x"   # the C# reference harness targets net6.0
+      - name: Qt runtime libraries
+        run: sudo sh packaging/linux/install-build-deps.sh
+      - name: Sync environment
+        run: uv sync --python "$PYTHON_VERSION" --extra studio
+      - name: Ruff
+        run: uv run ruff check . && uv run ruff format --check .
+      - name: Pyright
+        run: uv run --extra studio pyright
+      - name: Pytest (includes regenerating golden data from the vendored original C#)
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: uv run --extra studio pytest -ra
+
+  python-dist:
+    name: Wheel + sdist
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10
+      - run: uv build
+      - uses: actions/upload-artifact@v7
+        with:
+          name: python-dist
+          path: dist/*
+          if-no-files-found: error
+
+  app:
+    name: App ${{ matrix.name }}
+    needs: [version, test]
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { name: windows-x64,  runner: windows-2025,     os: windows }
+          - { name: macos-arm64,  runner: macos-15,         os: macos }
+          - { name: macos-x86_64, runner: macos-15-intel,   os: macos }
+          - { name: linux-x86_64, runner: ubuntu-22.04,     os: linux }   # glibc 2.35 baseline
+          - { name: linux-arm64,  runner: ubuntu-24.04-arm, os: linux }   # PySide6 aarch64 wheels need glibc >= 2.39
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10
+        with:
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+
+      - name: Linux build dependencies (Qt runtime libs, binutils, nfpm)
+        if: matrix.os == 'linux'
+        run: sudo NFPM_VERSION="$NFPM_VERSION" sh packaging/linux/install-build-deps.sh
+
+      - name: Select Xcode 26+ (actool compiles the Liquid Glass icon, genibo.icon)
+        if: matrix.os == 'macos'
+        run: |
+          set -euo pipefail
+          xcode="$(python3 -c '
+          import glob, re
+          def ver(p):
+              return tuple(int(x) for x in re.findall(r"\d+", p.rsplit("Xcode_", 1)[-1]))
+          apps = [a for a in glob.glob("/Applications/Xcode_*.app") if ver(a) and ver(a)[0] >= 26]
+          print(max(apps, key=ver) if apps else "")
+          ')"
+          if [[ -z "$xcode" ]]; then echo "::error::no Xcode 26+ on this runner"; exit 1; fi
+          echo "DEVELOPER_DIR=$xcode/Contents/Developer" >> "$GITHUB_ENV"
+          DEVELOPER_DIR="$xcode/Contents/Developer" xcrun actool --version | grep -A1 short-bundle-version | tail -n 1
+
+      - name: Inno Setup
+        if: matrix.os == 'windows'
+        shell: pwsh
+        run: |
+          $iscc = Join-Path ${env:ProgramFiles(x86)} "Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc) -and -not (Get-Command iscc -ErrorAction SilentlyContinue)) {
+            choco install innosetup -y --no-progress
+          }
+
+      - name: Build and self-test
+        env:
+          PACKAGE_VERSION: ${{ needs.version.outputs.package_version }}
+        run: >
+          uv run --python "$PYTHON_VERSION" --extra studio --with "pyinstaller==$PYINSTALLER_VERSION"
+          python packaging/build.py --version "$PACKAGE_VERSION" --self-test
+
+      - name: Verify DMG as shipped
+        if: matrix.os == 'macos'
+        run: for d in dist/release/*.dmg; do bash packaging/macos/verify-dmg.sh "$d"; done
+
+      - name: Verify installer as shipped
+        if: matrix.os == 'windows'
+        shell: pwsh
+        run: |
+          Get-ChildItem dist/release/*-setup.exe | ForEach-Object { ./packaging/windows/verify-installer.ps1 -Setup $_.FullName }
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: app-${{ matrix.name }}
+          path: dist/release/*
+          if-no-files-found: error
+          retention-days: ${{ startsWith(github.ref, 'refs/tags/') && 90 || 14 }}
+
+  linux-packages:
+    name: Install ${{ matrix.image }} (${{ matrix.arch }}, ${{ matrix.kind }})
+    needs: app
+    runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { arch: x86_64, kind: deb, image: "ubuntu:22.04" }
+          - { arch: x86_64, kind: deb, image: "ubuntu:24.04" }
+          - { arch: x86_64, kind: deb, image: "debian:12" }
+          - { arch: x86_64, kind: rpm, image: "fedora:42" }
+          - { arch: x86_64, kind: rpm, image: "almalinux:9" }    # installs, or is refused if glibc floor > 2.34
+          - { arch: arm64,  kind: deb, image: "ubuntu:24.04" }
+          - { arch: arm64,  kind: deb, image: "debian:13" }
+          - { arch: arm64,  kind: deb, image: "ubuntu:22.04" }   # must be refused (glibc 2.35 < floor)
+          - { arch: arm64,  kind: rpm, image: "fedora:42" }
+          - { arch: arm64,  kind: rpm, image: "almalinux:10" }
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          sparse-checkout: packaging/
+      - uses: actions/download-artifact@v8
+        with:
+          name: app-linux-${{ matrix.arch }}
+          path: dist/release
+      - name: Install and test in a clean container
+        env:
+          IMAGE: ${{ matrix.image }}
+          KIND: ${{ matrix.kind }}
+        run: |
+          set -euo pipefail
+          pkg="$(find dist/release -maxdepth 1 -name "*.${KIND}" -printf '%f\n' | head -n 1)"
+          test -n "$pkg"
+          docker run --rm -v "$PWD/dist/release:/pkgs:ro" -v "$PWD/packaging:/packaging:ro" "$IMAGE" \
+            sh /packaging/linux/test-package.sh "/pkgs/$pkg"
+
+  release:
+    name: GitHub release
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [version, python-dist, app, linux-packages]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          path: release
+          merge-multiple: true
+      - name: Checksums
+        working-directory: release
+        run: |
+          set -euo pipefail
+          rm -f -- ./selftest-* ./linux-*-glibc.txt ./*.sha256
+          sha256sum -- * | tee SHA256SUMS.txt
+      - uses: softprops/action-gh-release@v3
+        with:
+          name: Genibo Studio ${{ needs.version.outputs.version }}
+          prerelease: ${{ needs.version.outputs.prerelease == 'true' }}
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          files: |
+            release/*.exe
+            release/*.zip
+            release/*.dmg
+            release/*.deb
+            release/*.rpm
+            release/*.tar.gz
+            release/*.whl
+            release/SHA256SUMS.txt
