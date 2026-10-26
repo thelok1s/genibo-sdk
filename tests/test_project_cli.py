@@ -205,3 +205,19 @@ def test_frame_analysis() -> None:
     table = {"head_pan": {"servo_id": 15, "verified": True}, "head_tilt": {"servo_id": 16, "verified": False}}
     assert a.unverified_servos(table) == []
     assert analyze_frames(frames[1:2]).unverified_servos({}) == ["servo 15"]
+
+
+def test_frame_analysis_only_exact_torque_write_is_benign() -> None:
+    from genibo.program.safety import analyze_frames
+    from genibo.protocol import commands as c
+    from genibo.protocol.frames import BusPacket
+
+    exact = c.tunnel(0x20, c.ram_write(0xFE, 52, b"\x60")).encode()
+    spill = c.tunnel(0x20, c.ram_write(0xFE, 52, b"\x60\x00\x00\x00\x00\x00\x00")).encode()  # 52..58
+    lying = c.tunnel(
+        0x20, BusPacket(0xFE, 0x03, bytes([52, 1, 0x60, 0x99]))
+    ).encode()  # length says 1, 2 bytes
+    jog = c.tunnel(0x20, BusPacket(0xFE, 0x06, bytes([10, 1, 2, 0]))).encode()  # 3 entry bytes
+    assert analyze_frames([exact]).hazards == []
+    for frame in (spill, lying, jog):
+        assert analyze_frames([frame]).hazards, frame.hex()

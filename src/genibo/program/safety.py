@@ -76,6 +76,8 @@ def _bus(pkt: BusPacket, where: str, out: FrameAnalysis) -> None:
     c, d = pkt.command, pkt.data
     if c in (BusCommand.S_JOG, BusCommand.MPSU_MOTOR_MOVE):
         body = d[1:] if d else b""
+        if len(body) % 4:
+            out.hazards.append(f"{where}: malformed S_JOG ({len(body)} entry bytes is not a multiple of 4)")
         for i in range(len(body) // 4):
             _lo, _hi, flags, sid = body[i * 4 : i * 4 + 4]
             if flags & JogFlag.NO_ACTION:
@@ -85,11 +87,17 @@ def _bus(pkt: BusPacket, where: str, out: FrameAnalysis) -> None:
                 out.hazards.append(f"{where}: speed-mode (continuous rotation) command for servo {sid}")
         return
     if c == BusCommand.RAM_WRITE:
-        if len(d) >= 3 and d[0] == ServoRegister.TORQUE_CONTROL:
+        # Only the exact single-byte torque write is benign. A longer write starting at
+        # register 52 would also overwrite the registers after it.
+        if len(d) == 3 and d[0] == ServoRegister.TORQUE_CONTROL and d[1] == 1:
             out.torque_targets.add(pkt.device_id)
         else:
             reg = d[0] if d else -1
-            out.hazards.append(f"{where}: servo RAM write to register {reg} on 0x{pkt.device_id:02x}")
+            n = d[1] if len(d) > 1 else -1
+            out.hazards.append(
+                f"{where}: servo RAM write to register {reg} (length {n}, {max(len(d) - 2, 0)} data bytes) "
+                f"on 0x{pkt.device_id:02x}"
+            )
         return
     if c in _HAZARD_BUS:
         out.hazards.append(f"{where}: {_HAZARD_BUS[BusCommand(c)]} (0x{pkt.device_id:02x})")
