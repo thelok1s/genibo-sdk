@@ -6,7 +6,7 @@ platform. CI: `.github/workflows/build-artifacts.yml` at the repository root.
 | Target | Runner | Artifacts | Minimum OS |
 |---|---|---|---|
 | Windows x64 | `windows-2025` | `Genibo-Studio-<v>-windows-x64-setup.exe` (Inno Setup), `.zip` | Windows 10/11 x64 |
-| macOS Apple silicon | `macos-15` | `Genibo-Studio-<v>-macos-arm64.dmg` | macOS 14 |
+| macOS Apple silicon | `macos-26` | `Genibo-Studio-<v>-macos-arm64.dmg` | macOS 14 |
 | macOS Intel | `macos-15-intel` | `Genibo-Studio-<v>-macos-x86_64.dmg` | macOS 14 |
 | Linux x86_64 | `ubuntu-22.04` | `genibo-studio_<v>_amd64.deb`, `genibo-studio-<v>-1.x86_64.rpm`, `.tar.gz` | glibc floor measured at build time (built on glibc 2.35) |
 | Linux arm64 | `ubuntu-24.04-arm` | `genibo-studio_<v>_arm64.deb`, `genibo-studio-<v>-1.aarch64.rpm`, `.tar.gz` | glibc ≥ 2.38: Ubuntu 24.04+, Debian 13+, Fedora 39+, RHEL/Alma 10 |
